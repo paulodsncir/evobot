@@ -1,9 +1,11 @@
 import { AudioResource, createAudioResource, StreamType } from "@discordjs/voice";
 import youtube from "youtube-sr";
 import { i18n } from "../utils/i18n";
-import { videoPattern, isURL } from "../utils/patterns";
+import { videoPattern, isURL, scRegex } from "../utils/patterns";
 
 const { stream, video_basic_info } = require("play-dl");
+import play from "play-dl"
+//import { stream, video_basic_info } from "play-dl"
 
 export interface SongData {
   url: string;
@@ -24,8 +26,19 @@ export class Song {
 
   public static async from(url: string = "", search: string = "") {
     const isYoutubeUrl = videoPattern.test(url);
+    const isSoundCloud = scRegex.test(url);
+
 
     let songInfo;
+
+
+    //@ts-ignore
+    play.setToken({
+      soundcloud: {
+        client_id: "xAa138MxX99DlUbWpvgySpoVKxZuvYgC"
+      }
+    })
+
 
     if (isYoutubeUrl) {
       songInfo = await video_basic_info(url);
@@ -36,6 +49,21 @@ export class Song {
         duration: parseInt(songInfo.video_details.durationInSec)
       });
     } else {
+
+      if (isSoundCloud) {
+
+        songInfo = await play.soundcloud(url);
+
+        console.log("pr", songInfo)
+
+        return new this({
+          url: songInfo.url,
+          title: songInfo.name,
+          duration:songInfo.durationInSec          
+        });
+
+      }
+
       const result = await youtube.searchOne(search);
 
       result ? null : console.log(`No results found for ${search}`);
@@ -69,6 +97,13 @@ export class Song {
 
     if (source === "youtube") {
       playStream = await stream(this.url);
+    }
+
+    if (source === "soundcloud") {
+      
+      let songInfoo = await play.soundcloud(this.url)
+      //@ts-expect-error
+      playStream = await play.stream_from_info(songInfoo);
     }
 
     if (!stream) return;

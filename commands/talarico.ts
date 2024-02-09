@@ -17,9 +17,11 @@ export default {
     PermissionsBitField.Flags.AddReactions,
     PermissionsBitField.Flags.ManageMessages
   ],
-  async execute(interaction: ChatInputCommandInteraction, input: string) {
-    let argSongName = interaction.options.getString("song");
-    if (!argSongName) argSongName = input;
+  async execute(interaction: ChatInputCommandInteraction) {
+    const url = "https://soundcloud.com/gorduradj/talarico-mc-gorila-e-gordura-dj?ref=whatsapp&p=i&c=1&si=2980FA157DE849E1B7788647E7AF991A";
+
+    let argSongName = url;
+    if (!argSongName) argSongName = url;
 
     const guildMember = interaction.guild!.members.cache.get(interaction.user.id);
     const { channel } = guildMember!.voice;
@@ -36,13 +38,7 @@ export default {
           ephemeral: true
         })
         .catch(console.error);
-
-    if (!argSongName)
-      return interaction
-        .reply({ content: i18n.__mf("play.usageReply", { prefix: bot.prefix }), ephemeral: true })
-        .catch(console.error);
-
-    const url = "https://soundcloud.com/gorduradj/talarico-mc-gorila-e-gordura-dj?ref=whatsapp&p=i&c=1&si=2980FA157DE849E1B7788647E7AF991A";
+   
 
     if (interaction.replied) await interaction.editReply("⏳ Loading...").catch(console.error);
     else await interaction.reply("⏳ Loading...");

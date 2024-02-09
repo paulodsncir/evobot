@@ -22,11 +22,13 @@ export class Song {
     this.url = url;
     this.title = title;
     this.duration = duration;
+    
   }
 
   public static async from(url: string = "", search: string = "") {
     const isYoutubeUrl = videoPattern.test(url);
     const isSoundCloud = scRegex.test(url);
+  
 
 
     let songInfo;
@@ -54,13 +56,11 @@ export class Song {
 
         songInfo = await play.soundcloud(url);
 
-        console.log("pr", songInfo)
-
         return new this({
           //@ts-ignore
           url: songInfo.permalink,
           title: songInfo.name,
-          duration:songInfo.durationInSec          
+          duration:songInfo.durationInSec ,       
         });
 
       }

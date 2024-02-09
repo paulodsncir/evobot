@@ -171,5 +171,6 @@
 		"errorNotChannel": "Você precisa entrar em um canal de voz primeiro!",
 		"cooldownMessage": "Por favor espere {time} segundo(s) mais antes de usar o comando `{name}` novamente.",
 		"errorCommand": "Houve um erro ao executar este comando."
-	}
+	},
+	"A história de um talarico": "A história de um talarico"
 }

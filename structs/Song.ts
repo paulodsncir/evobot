@@ -57,7 +57,8 @@ export class Song {
         console.log("pr", songInfo)
 
         return new this({
-          url: songInfo.url,
+          //@ts-ignore
+          url: songInfo.permalink,
           title: songInfo.name,
           duration:songInfo.durationInSec          
         });

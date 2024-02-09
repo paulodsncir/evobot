@@ -9,8 +9,7 @@ import { playlistPattern } from "../utils/patterns";
 export default {
   data: new SlashCommandBuilder()
     .setName("talarico")
-    .setDescription(i18n.__("A história de um talarico"))
-    .addStringOption((option) => option.setName("song").setDescription("A história de um talarico").setRequired(true)),
+    .setDescription(i18n.__("A história de um talarico")),
   cooldown: 3,
   permissions: [
     PermissionsBitField.Flags.Connect,

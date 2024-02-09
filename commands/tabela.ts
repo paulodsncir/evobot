@@ -6,7 +6,7 @@ import nodeHtmlToImage from "node-html-to-image";
 
 
 export default {
-  data: new SlashCommandBuilder().setName("tabela").setDescription("Tabela do campeonato Brasileiro"),
+  data: new SlashCommandBuilder().setName("tabela").setDescription("Tabela do campeonato Brasileiro."),
   permissions: [
     PermissionsBitField.Flags.Connect,
     PermissionsBitField.Flags.Speak,

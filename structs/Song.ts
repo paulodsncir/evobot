@@ -91,29 +91,35 @@ export class Song {
   }
 
   public async makeResource(): Promise<AudioResource<Song> | void> {
-    let playStream;
+    let playYoutube :any;
+    let playSoundClound:any;
 
     let type = this.url.includes("youtube.com") ? StreamType.Opus : StreamType.OggOpus;
 
     const source = this.url.includes("youtube") ? "youtube" : "soundcloud";
 
     if (source === "youtube") {
-    //  playStream = await stream(this.url);
-      playStream = ytdl(this.url, { filter: "audioonly", liveBuffer: 0, quality: "highestaudio" });
+      playYoutube =  ytdl(this.url, { filter: "audioonly", liveBuffer: 0, quality: "highestaudio" });;
+      
     }
 
     if (source === "soundcloud") {
       
       let songInfoo = await play.soundcloud(this.url)
       //@ts-expect-error
-      playStream = await play.stream_from_info(songInfoo);
+      playSoundClound = await play.stream_from_info(songInfoo);
     }
 
-    //if (!stream) return;
+    
 
-    if (!playStream) throw new Error("No stream found");
+    if (source === "youtube" && playYoutube) {
+      return createAudioResource(playYoutube, { metadata: this, inlineVolume: true });
+    }else{
+      if (!stream) return;
+      return createAudioResource(playSoundClound.stream, { metadata: this, inputType: playSoundClound.type, inlineVolume: true });
+    }
 
-    return createAudioResource(playStream, { metadata: this, inlineVolume: true });
+   
   }
 
   public startMessage() {

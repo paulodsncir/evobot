@@ -5,6 +5,7 @@ import { videoPattern, isURL, scRegex } from "../utils/patterns";
 
 const { stream, video_basic_info } = require("play-dl");
 import play from "play-dl"
+import ytdl from "ytdl-core";
 //import { stream, video_basic_info } from "play-dl"
 
 export interface SongData {
@@ -37,7 +38,7 @@ export class Song {
     //@ts-ignore
     play.setToken({
       soundcloud: {
-        client_id: "xAa138MxX99DlUbWpvgySpoVKxZuvYgC"
+        client_id: "xIJ58BvVuXifNTdPWBSey2YJz9snyV8J"
       }
     })
 
@@ -97,7 +98,8 @@ export class Song {
     const source = this.url.includes("youtube") ? "youtube" : "soundcloud";
 
     if (source === "youtube") {
-      playStream = await stream(this.url);
+    //  playStream = await stream(this.url);
+      playStream = ytdl(this.url, { filter: "audioonly", liveBuffer: 0, quality: "highestaudio" });
     }
 
     if (source === "soundcloud") {
@@ -107,9 +109,11 @@ export class Song {
       playStream = await play.stream_from_info(songInfoo);
     }
 
-    if (!stream) return;
+    //if (!stream) return;
 
-    return createAudioResource(playStream.stream, { metadata: this, inputType: playStream.type, inlineVolume: true });
+    if (!playStream) throw new Error("No stream found");
+
+    return createAudioResource(playStream, { metadata: this, inlineVolume: true });
   }
 
   public startMessage() {

@@ -5,7 +5,7 @@ import { videoPattern, isURL, scRegex } from "../utils/patterns";
 
 const { stream, video_basic_info } = require("play-dl");
 import play from "play-dl"
-import ytdl from "ytdl-core";
+const ytdl = require("@distube/ytdl-core");
 //import { stream, video_basic_info } from "play-dl"
 
 export interface SongData {
@@ -38,7 +38,7 @@ export class Song {
     //@ts-ignore
     play.setToken({
       soundcloud: {
-        client_id: "iyGXviHE8xjNOJChYIx9xdZ2WKCqCfQm"
+        client_id: "9yscQ7iNnJ3jEINZPHQ7REHzGUrJSPoU"
       }
     })
 

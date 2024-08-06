@@ -38,7 +38,7 @@ export class Song {
     //@ts-ignore
     play.setToken({
       soundcloud: {
-        client_id: "9yscQ7iNnJ3jEINZPHQ7REHzGUrJSPoU"
+        client_id: "lPP5wRG1UkRxNZhnYd7OVc4umoqzySTZ"
       }
     })
 
